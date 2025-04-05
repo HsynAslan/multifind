@@ -16,12 +16,15 @@ const Navbar = () => {
       {token ? (
         <>
           <Link to="/profile" style={{ marginRight: "10px" }}>Profile</Link>
+          <Link to="/search">Ürün Ara</Link>
           <button onClick={handleLogout}>Logout</button>
+          
         </>
       ) : (
         <>
           <Link to="/login" style={{ marginRight: "10px" }}>Login</Link>
           <Link to="/register">Register</Link>
+         
         </>
       )}
     </nav>

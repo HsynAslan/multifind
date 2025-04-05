@@ -1,10 +1,14 @@
 const db = require('../config/db');  // db.js dosyasını import et
 
-// Kullanıcıyı veritabanından bulma
 const findByEmail = async (email) => {
+  if (!email) {
+    throw new Error('Email is required');
+  }
+
   const [rows] = await db.execute('SELECT * FROM users WHERE email = ?', [email]);
   return rows;  // Bulunan kullanıcıları döndürüyoruz
 };
+
 
 // Kullanıcıyı oluşturma
 const createUser = async (name, email, password, role, isVerified) => {
@@ -12,4 +16,9 @@ const createUser = async (name, email, password, role, isVerified) => {
   return result;  // Yeni kullanıcının sonucu
 };
 
-module.exports = { findByEmail, createUser };
+// Kullanıcıyı doğrulama durumu ile güncelleme
+const updateUserVerificationStatus = async (email, isVerified) => {
+  await db.query('UPDATE users SET is_verified = ? WHERE email = ?', [isVerified, email]);
+};
+
+module.exports = { findByEmail, createUser, updateUserVerificationStatus  };

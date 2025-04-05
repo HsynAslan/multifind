@@ -3,6 +3,7 @@ import axios from "axios";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // Loading durumu
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -21,13 +22,15 @@ const ProfilePage = () => {
         setUser(response.data);
       } catch (error) {
         console.error("Profile fetch failed", error);
+      } finally {
+        setLoading(false); // Veriler geldikten sonra loading durumu false olacak
       }
     };
 
     fetchUser();
   }, []);
 
-  if (!user) return <div>Loading...</div>;
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div>
